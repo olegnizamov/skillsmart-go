@@ -182,10 +182,6 @@ func (l *LinkedList) print() {
 
 }
 
-func main() {
-	fmt.Print("Hello, World!") // В конце не нужна точка с запятой
-}
-
 func linkedListSum(list1 *LinkedList, list2 *LinkedList) *LinkedList {
 	var result = new(LinkedList)
 	if list1.Count() != list2.Count() {
