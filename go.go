@@ -44,6 +44,8 @@ func (l *LinkedList) Find(n int) Node {
 
 	var node = l.head
 
+	var answer = Node{}
+
 	for {
 
 		if node == nil {
@@ -57,7 +59,7 @@ func (l *LinkedList) Find(n int) Node {
 		node = node.next
 	}
 
-	return Node{value: -1, next: nil}
+	return answer
 }
 
 func (l *LinkedList) FindAll(n int) []Node {
