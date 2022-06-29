@@ -40,11 +40,9 @@ func (l *LinkedList) Count() int {
 	return count
 }
 
-func (l *LinkedList) Find(n int) Node {
-
+// error не nil, если узел не найден
+func (l *LinkedList) Find(n int) (Node, error) {
 	var node = l.head
-
-	var answer = Node{}
 
 	for {
 
@@ -53,13 +51,13 @@ func (l *LinkedList) Find(n int) Node {
 		}
 
 		if node.value == n {
-			return Node{value: node.value, next: node.next}
+			return Node{value: node.value, next: node.next}, nil
 		}
 
 		node = node.next
 	}
 
-	return answer
+	return Node{value: -1, next: nil}, fmt.Errorf("not found")
 }
 
 func (l *LinkedList) FindAll(n int) []Node {
