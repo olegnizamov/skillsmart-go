@@ -68,7 +68,7 @@ func TestFindZero(t *testing.T) {
 
 	var linkedlist = new(LinkedList)
 	var result Node = linkedlist.Find(3)
-	var answer Node = Node{value: -1, next: nil}
+	var answer Node = Node{}
 	if answer != result {
 		t.Error("Expected Node{value:-1, next: nil}, got ", result)
 	}
