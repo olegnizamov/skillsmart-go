@@ -94,6 +94,8 @@ func (l *LinkedList2) Delete(n int, all bool) {
 		l.head = l.head.next
 		if l.head == nil {
 			l.tail = nil
+		} else {
+			l.head.prev = nil
 		}
 		foundElement = true
 	} else {
