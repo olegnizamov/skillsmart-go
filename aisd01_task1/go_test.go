@@ -1,6 +1,8 @@
 package aisd01_task1
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCountHasElements(t *testing.T) {
 
@@ -67,11 +69,12 @@ func TestCleanZero(t *testing.T) {
 func TestFindZero(t *testing.T) {
 
 	var linkedlist = new(LinkedList)
-	var result Node = linkedlist.Find(3)
-	var answer Node = Node{value: -1, next: nil}
-	if answer != result {
+	var result, err = linkedlist.Find(3)
+
+	if err == nil {
 		t.Error("Expected Node{value:-1, next: nil}, got ", result)
 	}
+
 }
 
 func TestFindHasElements(t *testing.T) {
@@ -88,10 +91,15 @@ func TestFindHasElements(t *testing.T) {
 	linkedlist.AddInTail(node4)
 	linkedlist.AddInTail(node5)
 
-	var result Node = linkedlist.Find(3)
+	var result, err = linkedlist.Find(3)
 	var answer Node = Node{value: 3, next: &node4}
+
 	if answer.value != result.value && answer.next.value != result.next.value {
 		t.Error("Expected Node{value:3, next: &node4}, got ", result)
+	}
+
+	if err != nil {
+		t.Error("NOT FOUND ??")
 	}
 }
 
