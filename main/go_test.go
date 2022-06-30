@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestCountHasElements(t *testing.T) {
 
@@ -9,7 +11,7 @@ func TestCountHasElements(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
@@ -26,7 +28,7 @@ func TestCountHasElements(t *testing.T) {
 
 func TestCountZero(t *testing.T) {
 
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	var v int
 	v = linkedlist.Count()
 	if v != 0 {
@@ -41,7 +43,7 @@ func TestCleanHasElements(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
@@ -57,7 +59,7 @@ func TestCleanHasElements(t *testing.T) {
 
 func TestCleanZero(t *testing.T) {
 
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.Clean()
 	if nil != linkedlist.head || nil != linkedlist.tail {
 		t.Error("Expected nil LinkedList , got not nil")
@@ -66,12 +68,13 @@ func TestCleanZero(t *testing.T) {
 
 func TestFindZero(t *testing.T) {
 
-	var linkedlist = new(LinkedList)
-	var result Node = linkedlist.Find(3)
-	var answer Node = Node{value: -1, next: nil}
-	if answer != result {
+	var linkedlist = new(LinkedList2)
+	var result, err = linkedlist.Find(3)
+
+	if err == nil {
 		t.Error("Expected Node{value:-1, next: nil}, got ", result)
 	}
+
 }
 
 func TestFindHasElements(t *testing.T) {
@@ -81,108 +84,28 @@ func TestFindHasElements(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
 	linkedlist.AddInTail(node3)
 	linkedlist.AddInTail(node4)
 	linkedlist.AddInTail(node5)
 
-	var result Node = linkedlist.Find(3)
+	var result, err = linkedlist.Find(3)
 	var answer Node = Node{value: 3, next: &node4}
+
 	if answer.value != result.value && answer.next.value != result.next.value {
 		t.Error("Expected Node{value:3, next: &node4}, got ", result)
 	}
-}
 
-func TestSumSameLength(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	var linkedlist2 = new(LinkedList)
-	linkedlist2.AddInTail(node1)
-	linkedlist2.AddInTail(node2)
-	linkedlist2.AddInTail(node3)
-	linkedlist2.AddInTail(node4)
-	linkedlist2.AddInTail(node5)
-
-	var result = linkedListSum(linkedlist, linkedlist2)
-	var answer = new(LinkedList)
-
-	var node1Answer Node = Node{value: 2}
-	var node2Answer Node = Node{value: 4}
-	var node3Answer Node = Node{value: 6}
-	var node4Answer Node = Node{value: 8}
-	var node5Answer Node = Node{value: 10}
-
-	answer.AddInTail(node1Answer)
-	answer.AddInTail(node2Answer)
-	answer.AddInTail(node3Answer)
-	answer.AddInTail(node4Answer)
-	answer.AddInTail(node5Answer)
-
-	var nodeResult *Node = result.head
-	var nodeAnswer *Node = answer.head
-
-	for {
-
-		if nodeResult == nil {
-			break
-		}
-
-		if nodeResult.value != nodeAnswer.value {
-			t.Error("Expected , got ", nodeResult.value)
-		}
-
-		nodeResult = nodeResult.next
-		nodeAnswer = nodeAnswer.next
-	}
-
-}
-
-func TestSumNotSameLength(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	var linkedlist2 = new(LinkedList)
-	linkedlist2.AddInTail(node1)
-	linkedlist2.AddInTail(node2)
-	linkedlist2.AddInTail(node3)
-	linkedlist2.AddInTail(node4)
-	linkedlist2.AddInTail(node5)
-	linkedlist2.AddInTail(Node{value: 6})
-	linkedlist2.AddInTail(Node{value: 7})
-
-	var result = linkedListSum(linkedlist, linkedlist2)
-
-	if result.head != nil && result.tail != nil {
-		t.Error("Expected nil, got ", result)
+	if err != nil {
+		t.Error("NOT FOUND ??")
 	}
 }
 
 func TestFindAllHasNot(t *testing.T) {
 
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	var node1 Node = Node{value: 1}
 	var node2 Node = Node{value: 2}
 	var node3 Node = Node{value: 3}
@@ -208,7 +131,7 @@ func TestFindAllHasManyElements(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
 	linkedlist.AddInTail(node3)
@@ -230,7 +153,7 @@ func TestFindAllHasOneElement(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
 	linkedlist.AddInTail(node3)
@@ -248,7 +171,7 @@ func TestFindAllHasOneElement(t *testing.T) {
 func TestInsertFirstNilList(t *testing.T) {
 
 	var node1 Node = Node{value: 1}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.InsertFirst(node1)
 
 	if linkedlist.head.value != 1 && linkedlist.tail.value != 1 {
@@ -264,7 +187,7 @@ func TestInsertFirsHasHead(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
 	linkedlist.AddInTail(node3)
@@ -287,7 +210,7 @@ func TestInsert(t *testing.T) {
 	var node3 Node = Node{value: 3}
 	var node4 Node = Node{value: 4}
 	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.AddInTail(node1)
 	linkedlist.AddInTail(node2)
 	linkedlist.AddInTail(node3)
@@ -303,7 +226,7 @@ func TestInsert(t *testing.T) {
 }
 
 func TestDeleteHeadNil(t *testing.T) {
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	linkedlist.Delete(1, false)
 
 	if linkedlist.head != nil {
@@ -312,7 +235,7 @@ func TestDeleteHeadNil(t *testing.T) {
 }
 
 func TestDeleteHead(t *testing.T) {
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	var node1 Node = Node{value: 1}
 	var node2 Node = Node{value: 2}
 	linkedlist.AddInTail(node1)
@@ -330,7 +253,7 @@ func TestDeleteHead(t *testing.T) {
 }
 
 func TestDeleteOneTime(t *testing.T) {
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	var node1 Node = Node{value: 1}
 	var node2 Node = Node{value: 2}
 	var node3 Node = Node{value: 3}
@@ -349,7 +272,7 @@ func TestDeleteOneTime(t *testing.T) {
 }
 
 func TestDeleteManyTime(t *testing.T) {
-	var linkedlist = new(LinkedList)
+	var linkedlist = new(LinkedList2)
 	var node1 Node = Node{value: 1}
 	var node2 Node = Node{value: 2}
 	var node3 Node = Node{value: 1}

@@ -2,31 +2,34 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"reflect"
 )
 
 type Node struct {
+	prev  *Node
 	next  *Node
 	value int
 }
 
-type LinkedList struct {
+type LinkedList2 struct {
 	head *Node
 	tail *Node
 }
 
-func (l *LinkedList) AddInTail(item Node) {
+func (l *LinkedList2) AddInTail(item Node) {
 	if l.head == nil {
 		l.head = &item
+		l.head.next = nil
+		l.head.prev = nil
 	} else {
 		l.tail.next = &item
+		item.prev = l.tail
 	}
 
 	l.tail = &item
+	l.tail.next = nil
 }
 
-func (l *LinkedList) Count() int {
+func (l *LinkedList2) Count() int {
 	var node = l.head
 	var count int = 0
 	for {
@@ -40,8 +43,8 @@ func (l *LinkedList) Count() int {
 	return count
 }
 
-func (l *LinkedList) Find(n int) Node {
-
+// error не nil, если узел не найден
+func (l *LinkedList2) Find(n int) (Node, error) {
 	var node = l.head
 
 	for {
@@ -51,16 +54,17 @@ func (l *LinkedList) Find(n int) Node {
 		}
 
 		if node.value == n {
-			return Node{value: node.value, next: node.next}
+			return Node{value: node.value, next: node.next}, nil
 		}
 
 		node = node.next
 	}
 
-	return Node{value: -1, next: nil}
+	return Node{value: -1, next: nil}, fmt.Errorf("not found")
 }
 
-func (l *LinkedList) FindAll(n int) []Node {
+func (l *LinkedList2) FindAll(n int) []Node {
+
 	var nodes []Node
 	var node = l.head
 	for {
@@ -79,8 +83,7 @@ func (l *LinkedList) FindAll(n int) []Node {
 	return nodes
 }
 
-func (l *LinkedList) Delete(n int, all bool) {
-
+func (l *LinkedList2) Delete(n int, all bool) {
 	var foundElement bool = false
 
 	if l.head == nil {
@@ -111,6 +114,7 @@ func (l *LinkedList) Delete(n int, all bool) {
 				}
 
 				prevNode.next = currentNode.next
+				currentNode.next.prev = prevNode
 				foundElement = true
 				break
 			}
@@ -125,7 +129,7 @@ func (l *LinkedList) Delete(n int, all bool) {
 	}
 }
 
-func (l *LinkedList) Insert(after *Node, add Node) {
+func (l *LinkedList2) Insert(after *Node, add Node) {
 
 	if after == nil {
 		l.InsertFirst(add)
@@ -145,6 +149,7 @@ func (l *LinkedList) Insert(after *Node, add Node) {
 			}
 			add.next = node.next
 			node.next = &add
+			add.prev = node
 			return
 		}
 		node = node.next
@@ -152,25 +157,28 @@ func (l *LinkedList) Insert(after *Node, add Node) {
 
 }
 
-func (l *LinkedList) InsertFirst(first Node) {
+func (l *LinkedList2) InsertFirst(first Node) {
 
 	if l.head == nil {
 		l.head = &first
 		l.tail = &first
+		first.next = nil
+		first.prev = nil
 		return
 	}
 
 	var oldHead *Node = l.head
+	oldHead.prev = &first
 	l.head = &first
 	l.head.next = oldHead
 }
 
-func (l *LinkedList) Clean() {
+func (l *LinkedList2) Clean() {
 	l.head = nil
 	l.tail = nil
 }
 
-func (l *LinkedList) print() {
+func (l *LinkedList2) print() {
 	var node = l.head
 
 	for {
@@ -181,27 +189,5 @@ func (l *LinkedList) print() {
 		fmt.Println(node.value)
 		node = node.next
 	}
-
-}
-
-func linkedListSum(list1 *LinkedList, list2 *LinkedList) *LinkedList {
-	var result = new(LinkedList)
-	if list1.Count() != list2.Count() {
-		return &LinkedList{head: nil, tail: nil}
-	}
-	var node1 *Node = list1.head
-	var node2 *Node = list2.head
-
-	for {
-
-		if node1 == nil {
-			break
-		}
-		result.AddInTail(Node{value: node1.value + node2.value})
-		node1 = node1.next
-		node2 = node2.next
-	}
-
-	return result
 
 }
