@@ -4,293 +4,162 @@ import (
 	"testing"
 )
 
-func TestCountHasElements(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	var v int
-	v = linkedlist.Count()
-	if v != 5 {
-		t.Error("Expected 5, got ", v)
+func TestInit(t *testing.T) {
+	var da = DynArray[int]{}
+	da.count = 10
+	da.Init()
+	if da.capacity != 16 {
+		t.Error("Expected 16, got ", da.capacity)
+	}
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
 	}
 }
 
-func TestCountZero(t *testing.T) {
+func TestMakeArray(t *testing.T) {
 
-	var linkedlist = new(LinkedList2)
-	var v int
-	v = linkedlist.Count()
-	if v != 0 {
-		t.Error("Expected 0, got ", v)
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
+	}
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
+	}
+	da.Append(1)
+	da.Append(2)
+	da.Append(3)
+	da.Append(4)
+	da.Append(5)
+	da.MakeArray(50)
+	if da.capacity != 50 {
+		t.Error("Expected 50, got ", da.capacity)
+	}
+	if da.count != 5 {
+		t.Error("Expected 5, got ", da.count)
 	}
 }
 
-func TestCleanHasElements(t *testing.T) {
+func TestAppend(t *testing.T) {
 
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
+	}
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
+	}
+	da.Append(1)
+	da.Append(2)
+	da.Append(3)
+	da.Append(4)
+	da.Append(5)
 
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	linkedlist.Clean()
-	if nil != linkedlist.head || nil != linkedlist.tail {
-		t.Error("Expected nil LinkedList , got not nil")
+	for i := 0; i < da.count; i++ {
+		if da.array[i] != (i + 1) {
+			t.Error("got ", da.array[i])
+		}
 	}
 }
 
-func TestCleanZero(t *testing.T) {
+func TestGetItem(t *testing.T) {
 
-	var linkedlist = new(LinkedList2)
-	linkedlist.Clean()
-	if nil != linkedlist.head || nil != linkedlist.tail {
-		t.Error("Expected nil LinkedList , got not nil")
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
 	}
-}
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
+	}
+	da.Append(1)
+	da.Append(2)
+	da.Append(3)
+	da.Append(4)
+	da.Append(5)
 
-func TestFindZero(t *testing.T) {
-
-	var linkedlist = new(LinkedList2)
-	var result, err = linkedlist.Find(3)
-
+	for i := 0; i < da.count; i++ {
+		var result, err = da.GetItem(i)
+		if result != (i + 1) {
+			t.Error("got ", da.array[i])
+		}
+		if err != nil {
+			t.Error("got error")
+		}
+	}
+	var _, err = da.GetItem(100)
 	if err == nil {
-		t.Error("Expected Node{value:-1, next: nil}, got ", result)
-	}
-
-}
-
-func TestFindHasElements(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	var result, err = linkedlist.Find(3)
-	var answer Node = Node{value: 3, next: &node4}
-
-	if answer.value != result.value && answer.next.value != result.next.value {
-		t.Error("Expected Node{value:3, next: &node4}, got ", result)
-	}
-
-	if err != nil {
-		t.Error("NOT FOUND ??")
+		t.Error("error has not")
 	}
 }
 
-func TestFindAllHasNot(t *testing.T) {
+func TestRemove(t *testing.T) {
 
-	var linkedlist = new(LinkedList2)
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	var resultNodes []Node = linkedlist.FindAll(100)
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
 
-	if len(resultNodes) > 0 {
-		t.Error("Expected zero count, got ", len(resultNodes))
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
 	}
 
-}
-
-func TestFindAllHasManyElements(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	var resultNodes []Node = linkedlist.FindAll(5)
-
-	if len(resultNodes) != 3 {
-		t.Error("Expected 3 count, got ", len(resultNodes))
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
 	}
-}
 
-func TestFindAllHasOneElement(t *testing.T) {
+	da.Append(1)
+	da.Append(2)
+	da.Append(3)
+	da.Append(4)
+	da.Append(5)
 
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	var resultNodes []Node = linkedlist.FindAll(2)
+	var err = da.Remove(0)
 
-	if len(resultNodes) != 1 {
-		t.Error("Expected 1 count, got ", len(resultNodes))
+	for i := 0; i < da.count; i++ {
+		var result, err = da.GetItem(i)
+		if result != (i + 2) {
+			t.Error("got ", da.array[i])
+		}
+		if err != nil {
+			t.Error("got error")
+		}
 	}
-}
 
-func TestInsertFirstNilList(t *testing.T) {
-
-	var node1 Node = Node{value: 1}
-	var linkedlist = new(LinkedList2)
-	linkedlist.InsertFirst(node1)
-
-	if linkedlist.head.value != 1 && linkedlist.tail.value != 1 {
-		t.Error("Expected 1, got ", linkedlist.head.value)
-	}
-}
-
-func TestInsertFirsHasHead(t *testing.T) {
-
-	var nodeNewHead Node = Node{value: 100}
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.InsertFirst(nodeNewHead)
-
-	if linkedlist.head.value != 100 {
-		t.Error("Expected 100, got ", linkedlist.head.value)
+	err = da.Remove(100)
+	if err == nil {
+		t.Error("error has not")
 	}
 }
 
 func TestInsert(t *testing.T) {
 
-	var nodeNewHead Node = Node{value: 100}
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	var linkedlist = new(LinkedList2)
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.AddInTail(node5)
-	linkedlist.Insert(&node2, nodeNewHead)
-
-	if linkedlist.head.next.next.value != 100 {
-		t.Error("Expected 100, got ", linkedlist.head.value)
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
 	}
-}
-
-func TestDeleteHeadNil(t *testing.T) {
-	var linkedlist = new(LinkedList2)
-	linkedlist.Delete(1, false)
-
-	if linkedlist.head != nil {
-		t.Error("Expected nil, got ", linkedlist.head.value)
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
 	}
-}
+	var _ = da.Insert(1, 0)
+	_ = da.Insert(2, 1)
+	_ = da.Insert(3, 2)
+	_ = da.Insert(4, 3)
+	_ = da.Insert(5, 4)
 
-func TestDeleteHead(t *testing.T) {
-	var linkedlist = new(LinkedList2)
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.Delete(1, false)
-
-	if linkedlist.head.value != 2 {
-		t.Error("Expected 2, got ", linkedlist.head.value)
-	}
-	linkedlist.Delete(2, false)
-
-	if linkedlist.head != nil && linkedlist.tail != nil {
-		t.Error("Expected nil, got ", linkedlist.head)
-	}
-}
-
-func TestDeleteOneTime(t *testing.T) {
-	var linkedlist = new(LinkedList2)
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 3}
-	var node4 Node = Node{value: 4}
-	var node5 Node = Node{value: 5}
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-	linkedlist.Delete(3, false)
-
-	if linkedlist.head.next.next.value == 3 {
-		t.Error("Expected 4, got ", linkedlist.head.value)
-	}
-}
-
-func TestDeleteManyTime(t *testing.T) {
-	var linkedlist = new(LinkedList2)
-	var node1 Node = Node{value: 1}
-	var node2 Node = Node{value: 2}
-	var node3 Node = Node{value: 1}
-	var node4 Node = Node{value: 1}
-	var node5 Node = Node{value: 1}
-	linkedlist.AddInTail(node1)
-	linkedlist.AddInTail(node2)
-	linkedlist.AddInTail(node3)
-	linkedlist.AddInTail(node4)
-	linkedlist.AddInTail(node5)
-
-	linkedlist.Delete(1, true)
-
-	if linkedlist.head.value != 2 {
-		t.Error("Expected 2, got ", linkedlist.head.value)
+	for i := 0; i < da.count; i++ {
+		if da.array[i] != (i + 1) {
+			t.Error("got ", da.array[i])
+		}
 	}
 
-	if linkedlist.Count() != 1 {
-		t.Error("Expected 1 count, got ", linkedlist.Count())
+	var err = da.Insert(5, 100)
+	if err == nil {
+		t.Error("error has not")
 	}
 }
