@@ -163,3 +163,31 @@ func TestInsert(t *testing.T) {
 		t.Error("error has not")
 	}
 }
+
+func TestInsert2(t *testing.T) {
+
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(2048)
+	if da.capacity != 2048 {
+		t.Error("Expected 20, got ", da.capacity)
+	}
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
+	}
+
+	for i := 0; i < 1047; i++ {
+		_ = da.Insert(1, i)
+	}
+
+	var err = da.Insert(16, 256)
+	if err != nil {
+		t.Error("error has not")
+	}
+
+	var result, _ = da.GetItem(256)
+	if result != 16 {
+		t.Error("error has not")
+	}
+
+}

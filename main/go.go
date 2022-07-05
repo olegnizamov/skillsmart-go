@@ -61,6 +61,7 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 	}
 
 	da.count++
+	da.array[index] = itm
 
 	return nil
 }
