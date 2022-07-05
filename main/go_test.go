@@ -168,8 +168,8 @@ func TestInsert2(t *testing.T) {
 
 	var da = new(DynArray[int])
 	da.Init()
-	da.MakeArray(2048)
-	if da.capacity != 2048 {
+	da.MakeArray(1048)
+	if da.capacity != 1048 {
 		t.Error("Expected 20, got ", da.capacity)
 	}
 	if da.count != 0 {
@@ -177,7 +177,7 @@ func TestInsert2(t *testing.T) {
 	}
 
 	for i := 0; i < 1047; i++ {
-		_ = da.Insert(1, i)
+		_ = da.Insert(i, i)
 	}
 
 	var err = da.Insert(16, 256)
@@ -188,6 +188,22 @@ func TestInsert2(t *testing.T) {
 	var result, _ = da.GetItem(256)
 	if result != 16 {
 		t.Error("error has not")
+	}
+
+	for i := 0; i < 1048; i++ {
+		result, _ = da.GetItem(i)
+		if i < 256 {
+			if result != i {
+				t.Error("error on ", i)
+			}
+		} else if i == 256 {
+			continue
+		} else if i > 256 {
+			if result != i-1 {
+				t.Error("error on ", i)
+			}
+		}
+
 	}
 
 }

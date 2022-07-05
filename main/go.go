@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"fmt"
 )
 
@@ -57,8 +56,10 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 		da.MakeArray(2 * da.capacity)
 	}
 
-	for i := da.count; i < index; i-- {
+	var i = da.count
+	for i > index {
 		da.array[i] = da.array[i-1]
+		i--
 	}
 
 	da.count++
