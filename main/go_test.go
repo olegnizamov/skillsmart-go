@@ -162,7 +162,7 @@ func TestRemoveEmpty(t *testing.T) {
 	}
 
 	err = da.Remove(0)
-	if err != nil {
+	if err == nil {
 		t.Error("error")
 	}
 

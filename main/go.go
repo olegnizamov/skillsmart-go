@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"fmt"
 )
 
@@ -71,11 +70,11 @@ func (da *DynArray[T]) Insert(itm T, index int) error {
 
 func (da *DynArray[T]) Remove(index int) error {
 
-	if index < 0 || index > da.count {
+	if index < 0 || index >= da.count {
 		return fmt.Errorf("bad index '%d'", index)
 	}
 
-	for i := index; i < da.count-1; i++ {
+	for i := index; i <= da.count-1; i++ {
 		da.array[i] = da.array[i+1]
 	}
 	da.count--
