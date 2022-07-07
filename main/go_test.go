@@ -135,6 +135,39 @@ func TestRemove(t *testing.T) {
 	}
 }
 
+func TestRemoveEmpty(t *testing.T) {
+
+	var da = new(DynArray[int])
+	da.Init()
+	da.MakeArray(20)
+
+	if da.capacity != 20 {
+		t.Error("Expected 20, got ", da.capacity)
+	}
+
+	if da.count != 0 {
+		t.Error("Expected 0, got ", da.count)
+	}
+
+	da.Append(1)
+
+	var err = da.Remove(-1)
+	if err == nil {
+		t.Error("error")
+	}
+
+	err = da.Remove(0)
+	if err != nil {
+		t.Error("error")
+	}
+
+	err = da.Remove(0)
+	if err != nil {
+		t.Error("error")
+	}
+
+}
+
 func TestInsert(t *testing.T) {
 
 	var da = new(DynArray[int])
