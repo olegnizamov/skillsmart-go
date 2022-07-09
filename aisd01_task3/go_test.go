@@ -1,4 +1,4 @@
-package main
+package aisd01_task3
 
 import (
 	"testing"

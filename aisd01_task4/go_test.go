@@ -1,165 +1,174 @@
 package main
 
 import (
+	"fmt"
+	"strconv"
 	"testing"
 )
 
-func TestInit(t *testing.T) {
-	var da = DynArray[int]{}
-	da.count = 10
-	da.Init()
-	if da.capacity != 16 {
-		t.Error("Expected 16, got ", da.capacity)
-	}
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
+func TestEmptyStack(t *testing.T) {
+	var st = Stack[int]{}
+	if st.Size() != 0 {
+		t.Error("Error")
 	}
 }
 
-func TestMakeArray(t *testing.T) {
+func TestSizeNotEmpty(t *testing.T) {
+	var st = Stack[int]{}
+	st.Push(1)
+	st.Push(2)
+	st.Push(3)
+	st.Push(4)
+	st.Push(5)
+	st.Push(6)
 
-	var da = new(DynArray[int])
-	da.Init()
-	da.MakeArray(20)
-	if da.capacity != 20 {
-		t.Error("Expected 20, got ", da.capacity)
-	}
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
-	}
-	da.Append(1)
-	da.Append(2)
-	da.Append(3)
-	da.Append(4)
-	da.Append(5)
-	da.MakeArray(50)
-	if da.capacity != 50 {
-		t.Error("Expected 50, got ", da.capacity)
-	}
-	if da.count != 5 {
-		t.Error("Expected 5, got ", da.count)
+	if st.Size() != 6 {
+		t.Error("Error")
 	}
 }
 
-func TestAppend(t *testing.T) {
+func TestPeekEmpty(t *testing.T) {
+	var st = Stack[int]{}
+	var _, error = st.Peek()
 
-	var da = new(DynArray[int])
-	da.Init()
-	da.MakeArray(20)
-	if da.capacity != 20 {
-		t.Error("Expected 20, got ", da.capacity)
-	}
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
-	}
-	da.Append(1)
-	da.Append(2)
-	da.Append(3)
-	da.Append(4)
-	da.Append(5)
-
-	for i := 0; i < da.count; i++ {
-		if da.array[i] != (i + 1) {
-			t.Error("got ", da.array[i])
-		}
+	if error == nil {
+		t.Error("Error")
 	}
 }
 
-func TestGetItem(t *testing.T) {
+func TestPopEmpty(t *testing.T) {
+	var st = Stack[int]{}
+	var _, error = st.Pop()
 
-	var da = new(DynArray[int])
-	da.Init()
-	da.MakeArray(20)
-	if da.capacity != 20 {
-		t.Error("Expected 20, got ", da.capacity)
+	if error == nil {
+		t.Error("Error")
 	}
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
-	}
-	da.Append(1)
-	da.Append(2)
-	da.Append(3)
-	da.Append(4)
-	da.Append(5)
 
-	for i := 0; i < da.count; i++ {
-		var result, err = da.GetItem(i)
-		if result != (i + 1) {
-			t.Error("got ", da.array[i])
-		}
-		if err != nil {
-			t.Error("got error")
-		}
+}
+
+func TestPeekNotEmpty(t *testing.T) {
+	var st = Stack[int]{}
+	st.Push(1)
+	st.Push(2)
+	var result, error = st.Peek()
+
+	if error != nil {
+		t.Error("Error")
 	}
-	var _, err = da.GetItem(100)
-	if err == nil {
-		t.Error("error has not")
+
+	if result != 1 {
+		t.Error("Error")
+	}
+
+	if st.Size() != 2 {
+		t.Error("Error")
 	}
 }
 
-func TestRemove(t *testing.T) {
+func TestPopNotEmpty(t *testing.T) {
+	var st = Stack[int]{}
+	st.Push(1)
+	st.Push(2)
+	var result, error = st.Pop()
 
-	var da = new(DynArray[int])
-	da.Init()
-	da.MakeArray(20)
-
-	if da.capacity != 20 {
-		t.Error("Expected 20, got ", da.capacity)
+	if error != nil {
+		t.Error("Error")
 	}
 
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
+	if result != 1 {
+		t.Error("Error")
 	}
 
-	da.Append(1)
-	da.Append(2)
-	da.Append(3)
-	da.Append(4)
-	da.Append(5)
-
-	var err = da.Remove(0)
-
-	for i := 0; i < da.count; i++ {
-		var result, err = da.GetItem(i)
-		if result != (i + 2) {
-			t.Error("got ", da.array[i])
-		}
-		if err != nil {
-			t.Error("got error")
-		}
-	}
-
-	err = da.Remove(100)
-	if err == nil {
-		t.Error("error has not")
+	if st.Size() != 1 {
+		t.Error("Error")
 	}
 }
 
-func TestInsert(t *testing.T) {
+/**
+Напишите функцию, которая получает на вход строку, состоящую из открывающих и закрывающих скобок (например, "(()((())()))" или "(()()(()") и, и
+спользуя только стек и оператор цикла, определите, сбалансированы ли скобки в этой строке. Сбалансированной считается последовательность,
+в которой каждой открывающей обязательно соответствует закрывающая, а каждой закрывающей
+-- открывающая скобки, то есть последовательности "())(" , "))((" или "((())" будут несбалансированы.
+*/
 
-	var da = new(DynArray[int])
-	da.Init()
-	da.MakeArray(20)
-	if da.capacity != 20 {
-		t.Error("Expected 20, got ", da.capacity)
-	}
-	if da.count != 0 {
-		t.Error("Expected 0, got ", da.count)
-	}
-	var _ = da.Insert(1, 0)
-	_ = da.Insert(2, 1)
-	_ = da.Insert(3, 2)
-	_ = da.Insert(4, 3)
-	_ = da.Insert(5, 4)
+func TestCalculateBalanceString(t *testing.T) {
 
-	for i := 0; i < da.count; i++ {
-		if da.array[i] != (i + 1) {
-			t.Error("got ", da.array[i])
+	var test = []string{"(()((())()))", "(()()(()", "())(", "))((", "((())", "()(()())()((()())())"}
+
+	for i := 0; i < len(test); i++ {
+		var checkString string = test[i]
+		if checkString[0] == ')' || len(checkString)%2 != 0 {
+			fmt.Println(checkString, "- cтрока не сбалансирована")
+			continue
+		}
+
+		var st = Stack[string]{}
+
+		for j := 0; j < len(checkString); j++ {
+			if checkString[j] == '(' {
+				st.Push("j")
+			} else {
+				st.Pop()
+			}
+		}
+		if st.Size() > 0 {
+			fmt.Println(checkString, "- cтрока не сбалансирована")
+		} else {
+			fmt.Println(checkString, " - cтрока сбалансирована")
 		}
 	}
 
-	var err = da.Insert(5, 100)
-	if err == nil {
-		t.Error("error has not")
+}
+
+/**
+5. бонус +500 золотых. Постфиксная запись выражения -- это запись, в которой порядок вычислений определяется не скобками и приоритетами,
+а только позицией элемента в выражении. Например, в выражениях разрешено использовать целые числа и операции + и * . Тогда выражение
+*/
+
+func TestCalculate(t *testing.T) {
+
+	var test = []string{"1 2 + 3 * =", "8 2 + 5 * 9 + =", "2 3 *", "2 3 + 2 * ="}
+
+	for i := 0; i < len(test); i++ {
+		var checkString string = test[i]
+
+		var st1 = Stack[string]{}
+		var st2 = Stack[int]{}
+
+		for j := 0; j < len(checkString); j++ {
+
+			if string(checkString[j]) == " " {
+				continue
+			}
+			st1.Push(string(checkString[j]))
+		}
+
+		for {
+			if st1.Size() == 0 {
+				break
+			}
+
+			var currentChar, _ = st1.Pop()
+			if digit, err := strconv.Atoi(currentChar); err == nil {
+				st2.Push(digit)
+			} else {
+				if currentChar == "+" {
+					var first, _ = st2.Pop()
+					var second, _ = st2.Pop()
+					st2.Push(first + second)
+				} else if currentChar == "*" {
+					var first, _ = st2.Pop()
+					var second, _ = st2.Pop()
+					st2.Push(first * second)
+				} else if currentChar == "=" {
+					var result, _ = st2.Pop()
+					fmt.Println(checkString, " = ", result)
+					break
+				}
+			}
+
+		}
+
 	}
+
 }
