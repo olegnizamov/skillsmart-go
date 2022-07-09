@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	//	"os"
+	"os"
 )
 
 type Stack[T any] struct {
