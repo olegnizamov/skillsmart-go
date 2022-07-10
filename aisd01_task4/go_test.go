@@ -84,6 +84,48 @@ func TestPopNotEmpty(t *testing.T) {
 	}
 }
 
+func TestPeekAndPush(t *testing.T) {
+	var st = Stack[int]{}
+
+	for j := 1; j <= 1000; j++ {
+		st.Push(j)
+	}
+
+	if st.Size() != 1000 {
+		t.Error("Error")
+	}
+
+	for j := 1; j <= 1000; j++ {
+		var result, error = st.Pop()
+		if result != j {
+			t.Error("Error")
+		}
+		if error != nil {
+			t.Error("Error")
+		}
+	}
+
+	if st.Size() != 0 {
+		t.Error("Error")
+	}
+
+	for j := 1; j <= 1000; j++ {
+		st.Push(j)
+	}
+
+	if st.Size() != 1000 {
+		t.Error("Error")
+	}
+	var result, error = st.Peek()
+
+	if result != 1 {
+		t.Error("Error")
+	}
+	if error != nil {
+		t.Error("Error")
+	}
+}
+
 /**
 Напишите функцию, которая получает на вход строку, состоящую из открывающих и закрывающих скобок (например, "(()((())()))" или "(()()(()") и, и
 спользуя только стек и оператор цикла, определите, сбалансированы ли скобки в этой строке. Сбалансированной считается последовательность,
