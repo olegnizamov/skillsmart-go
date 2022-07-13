@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 )
 
 type Stack[T any] struct {
@@ -38,8 +37,8 @@ func (st *Stack[T]) Pop() (T, error) {
 //Push - помещает элемент в этот вход -- говорят, на самый верх стека
 func (st *Stack[T]) Push(itm T) {
 	/** Пересоздаем стек */
-	var netStack []T
-	netStack = append(netStack, itm)
-	var result = append(netStack, st.stack...)
-	st.stack = result
+	//var netStack []T
+	//netStack = append(netStack, itm)
+	//var result = append(netStack, st.stack...)
+	st.stack = append(st.stack, itm)
 }

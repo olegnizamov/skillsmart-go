@@ -56,7 +56,7 @@ func TestPeekNotEmpty(t *testing.T) {
 		t.Error("Error")
 	}
 
-	if result != 1 {
+	if result != 2 {
 		t.Error("Error")
 	}
 
@@ -75,7 +75,7 @@ func TestPopNotEmpty(t *testing.T) {
 		t.Error("Error")
 	}
 
-	if result != 1 {
+	if result != 2 {
 		t.Error("Error")
 	}
 
@@ -95,9 +95,9 @@ func TestPeekAndPush(t *testing.T) {
 		t.Error("Error")
 	}
 
-	for j := 1; j <= 1000; j++ {
+	for j := 0; j < 1000; j++ {
 		var result, error = st.Pop()
-		if result != j {
+		if result != (1000 - j) {
 			t.Error("Error")
 		}
 		if error != nil {
@@ -118,7 +118,7 @@ func TestPeekAndPush(t *testing.T) {
 	}
 	var result, error = st.Peek()
 
-	if result != 1 {
+	if result != 1000 {
 		t.Error("Error")
 	}
 	if error != nil {

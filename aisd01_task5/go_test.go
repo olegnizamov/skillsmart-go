@@ -55,3 +55,57 @@ func TestDequeueEmpty(t *testing.T) {
 		t.Error("Error")
 	}
 }
+
+func TestIn(t *testing.T) {
+	var st = Queue[int]{}
+
+	for j := 1; j <= 1000; j++ {
+		st.Enqueue(j)
+	}
+
+	if st.Size() != 1000 {
+		t.Error("Error")
+	}
+
+	for j := 1; j <= 1000; j++ {
+		var result, error = st.Dequeue()
+		if result != j {
+			t.Error("Error")
+		}
+		if error != nil {
+			t.Error("Error")
+		}
+	}
+
+	if st.Size() != 0 {
+		t.Error("Error")
+	}
+
+	for j := 1; j <= 1000; j++ {
+		st.Enqueue(j)
+	}
+
+	if st.Size() != 1000 {
+		t.Error("Error")
+	}
+
+	for j := 1; j <= 1000; j++ {
+		var result, error = st.Dequeue()
+		if result != j {
+			t.Error("Error")
+		}
+		if error != nil {
+			t.Error("Error")
+		}
+		st.Enqueue(j)
+	}
+
+	var result, error = st.Dequeue()
+
+	if result != 1 {
+		t.Error("Error")
+	}
+	if error != nil {
+		t.Error("Error")
+	}
+}
