@@ -70,6 +70,44 @@ func TestAddInHead(t *testing.T) {
 	}
 }
 
+func TestDeleteTail(t *testing.T) {
+	var ol = OrderedList[int]{}
+	ol._ascending = true
+	ol.Add(1)
+	ol.Add(2)
+	ol.Add(3)
+	ol.Delete(3)
+
+	if ol.Count() != 2 {
+		t.Error("Error")
+	}
+
+	if ol.head.value != 1 {
+		t.Error("Error")
+	}
+
+	if ol.tail.value != 2 {
+		t.Error("Error")
+	}
+}
+
+func TestDeleteHead1(t *testing.T) {
+	var ol = OrderedList[int]{}
+	ol._ascending = true
+	ol.Add(1)
+	ol.Add(2)
+	ol.Add(3)
+	ol.Delete(1)
+
+	if ol.Count() != 2 {
+		t.Error("Error")
+	}
+
+	if ol.head.value != 2 {
+		t.Error("Error")
+	}
+}
+
 func TestDeleteHead(t *testing.T) {
 	var ol = OrderedList[int]{}
 	ol._ascending = true
