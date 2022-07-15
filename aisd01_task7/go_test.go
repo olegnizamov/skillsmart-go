@@ -234,3 +234,43 @@ func TestIn(t *testing.T) {
 		t.Error("Error")
 	}
 }
+
+func TestIn1(t *testing.T) {
+	var ol = OrderedList[int]{}
+	ol._ascending = false
+	ol.Add(0)
+	ol.Add(2)
+	ol.Add(1)
+	ol.Add(1)
+	ol.Add(2)
+	ol.Add(1)
+	ol.Add(0)
+
+	if ol.Count() != 7 {
+		t.Error("Error")
+	}
+	if ol.head.value != 2 {
+		t.Error("Error")
+	}
+
+	if ol.tail.value != 0 {
+		t.Error("Error")
+	}
+
+	ol.Delete(1)
+	ol.Delete(2)
+	ol.Delete(0)
+	ol.Delete(1)
+	ol.Delete(0)
+	ol.Delete(1)
+
+	if ol.Count() != 1 {
+		t.Error("Error")
+	}
+	if ol.head.value != 2 {
+		t.Error("Error")
+	}
+	if ol.tail.value != 2 {
+		t.Error("Error")
+	}
+}
