@@ -156,3 +156,26 @@ func TestEmpty(t *testing.T) {
 	}
 
 }
+
+func TestIn(t *testing.T) {
+	var ol = OrderedList[int]{}
+	ol._ascending = true
+	ol.Add(0)
+	ol.Add(2)
+	ol.Add(1)
+	ol.Add(1)
+	ol.Add(2)
+	ol.Add(1)
+	ol.Add(0)
+
+	if ol.Count() != 7 {
+		t.Error("Error")
+	}
+	if ol.head.value != 0 {
+		t.Error("Error")
+	}
+
+	if ol.tail.value != 2 {
+		t.Error("Error")
+	}
+}

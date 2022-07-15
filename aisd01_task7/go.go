@@ -91,7 +91,9 @@ func (l *OrderedList[T]) Add(item T) {
 			l.Compare(node.value, item) < 1 && !l._ascending {
 			itemInsert.next = node
 			itemInsert.prev = node.prev
-			node = &itemInsert
+
+			node.prev.next = &itemInsert
+			node.prev = &itemInsert
 			return
 		}
 		node = node.next
