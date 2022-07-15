@@ -216,4 +216,21 @@ func TestIn(t *testing.T) {
 	if ol.tail.value != 2 {
 		t.Error("Error")
 	}
+
+	ol.Delete(1)
+	ol.Delete(2)
+	ol.Delete(2)
+	ol.Delete(1)
+	ol.Delete(0)
+	ol.Delete(1)
+
+	if ol.Count() != 1 {
+		t.Error("Error")
+	}
+	if ol.head.value != 0 {
+		t.Error("Error")
+	}
+	if ol.tail.value != 0 {
+		t.Error("Error")
+	}
 }
