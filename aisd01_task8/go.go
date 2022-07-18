@@ -1,5 +1,11 @@
 package main
 
+import (
+        "strconv"
+	"os"
+)
+
+
 type HashTable struct {
 	size  int
 	step  int
