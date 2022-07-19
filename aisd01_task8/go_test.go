@@ -5,26 +5,22 @@ import (
 )
 
 func TestHashFun(t *testing.T) {
-	var ht = Init(17, 3)
-	var result = ht.HashFun("aaa")
+	var result = HashFun("aaa")
 	if result != 3 {
 		t.Error("Error")
 	}
 
-	ht = Init(17, 3)
-	result = ht.HashFun("aa")
+	result = HashFun("aa")
 	if result != 2 {
 		t.Error("Error")
 	}
 
-	ht = Init(17, 3)
-	result = ht.HashFun("aab")
+	result = HashFun("aab")
 	if result != 3 {
 		t.Error("Error")
 	}
 
-	ht = Init(17, 3)
-	result = ht.HashFun("a")
+	result = HashFun("a")
 	if result != 1 {
 		t.Error("Error")
 	}
@@ -53,7 +49,7 @@ func TestSeekSlot(t *testing.T) {
 	}
 
 	ht = Init(17, 3)
-	result = ht.HashFun("aa")
+	result = HashFun("aa")
 	if result != 2 {
 		t.Error("Error")
 	}

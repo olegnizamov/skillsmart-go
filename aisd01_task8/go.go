@@ -1,5 +1,10 @@
 package main
 
+//import (
+//	"strconv"
+//	"os"
+//)
+
 type HashTable struct {
 	size  int
 	step  int
@@ -12,16 +17,16 @@ func Init(sz int, stp int) HashTable {
 	return ht
 }
 
-func (ht *HashTable) HashFun(value string) int {
+func HashFun(value string) int {
 	// всегда возвращает корректный индекс слота
-	var index = len(value) % ht.size
+	var index = len(value) % 100
 	return index
 }
 
 func (ht *HashTable) SeekSlot(value string) int {
 	// находит индекс пустого слота для значения,
 	// или -1
-	var index = ht.HashFun(value)
+	var index = HashFun(value)
 	if ht.slots[index] == "" {
 		return index
 	}
@@ -58,7 +63,7 @@ func (ht *HashTable) Put(value string) int {
 
 func (ht *HashTable) Find(value string) int {
 	// находит индекс слота со значением, или -1
-	var hashIndex = ht.HashFun(value)
+	var hashIndex = HashFun(value)
 
 	if ht.slots[hashIndex] == value {
 		return hashIndex
