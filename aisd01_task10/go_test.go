@@ -116,6 +116,15 @@ func TestPowerSet_Remove(t *testing.T) {
 	if answer != false {
 		t.Error("Error")
 	}
+
+	answer = result.Remove("1")
+	if answer != true {
+		t.Error("Error")
+	}
+	if result.Size() != 0 {
+		t.Error("Error")
+	}
+
 }
 
 func TestPowerSet_Intersection(t *testing.T) {

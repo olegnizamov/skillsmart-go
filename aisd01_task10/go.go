@@ -65,7 +65,9 @@ func (ps *PowerSet[T]) Remove(value T) bool {
 		}
 
 		if ps.Compare(ps.values[index], value) == 0 {
-			ps.values[index] = defaultTypeElement
+			copy(ps.values[index:], ps.values[index+1:])
+			ps.values[len(ps.values)-1] = defaultTypeElement
+			ps.values = ps.values[:len(ps.values)-1]
 			return true
 		}
 
