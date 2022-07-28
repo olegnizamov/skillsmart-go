@@ -1,8 +1,8 @@
 package main
 
-//import (
-//	"os"
-//)
+import (
+	"os"
+)
 
 // битовый массив длиной f_len ...
 type BloomFilter struct {
